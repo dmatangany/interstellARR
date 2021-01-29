@@ -1,4 +1,3 @@
-# interstellARR
 Design Notes:
 
 Having read the project I decided that its most imperative goal was to measure the ability of the candidate to create a solution from scratch, using best practice.
@@ -13,14 +12,22 @@ My main concern was the custom algorithm, that calculated the nearest path betwe
 
 The algorithm function is found in com.discov.logical.CustomAlgorithm
 
-Assumptions
+Distance Calculation Assumptions
 The start node is always A
 The end node can be any single node
 
+Software Mathodologies Used
+SOA
+SOLID
+OOP
+Repository Pattern
+REST
+Interfaces
+
 Restful Web Sevice URLs
 Port: 8084
-CUSTOM:  http://localhost:8084/custom/A/G
-STANDARD: http://localhost:8084/shortestpath/A/G
+Service:  http://localhost:8084/custom/A/G
+Web: http://localhost:8084
 
 EXECUTION
 In order to run the project you must change the following properties in the application.properties file:
@@ -29,3 +36,4 @@ In order to run the project you must change the following properties in the appl
 
 By Davison Matanga
 dmatangany@gmail.com
+0713628200    
