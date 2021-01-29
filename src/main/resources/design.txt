@@ -1,47 +1,39 @@
-Startup services
------------------
-DataLoaderImpl.JAVA
--Waits for the Spring Boot context to start than reads the XLS data file
--Persists the data file records into the in memory derby DB
+Design Notes:
 
-ORM
--------
--Tried not to have an unnecessarily deep object graph, could have had a Graph object that contains 
-a set of Planets and a set of Routes but instead went with the below more perfromance friendly approach.
--Mapped a Unidirectional Route --->Planet
--Planet.java
--Route.java
+Having read the project I decided that its most imperative goal was to measure the ability of the candidate to create a solution from scratch, using best practice.
 
-Business Logic
------------------
-ShortestPathService.java
--Contains the DijkstraAlgorithm business logic
--Uses the strategy pattern to delegate finding the shortes path to SimpleDirectedWeightedGraph
--Lazily initializes the SimpleDirectedWeightedGraph at service invocation time
+So I decided on a best case architecture, and I refactored components into the architecture.
 
+So I followed a maven template, incorporating the rest service, using exposed interfaces and using a JPA repository pattern. I compiled my own POM file.
 
-Rest Layer
--------------
-InterstellarRestController.java
--Reuses ShortestPathService.java to return the shortes path 
--Sample usage-->http://localhost:8080/shortestpath/A/Z
+I used the repository pattern, to handle all data calls to and from the artefacts. I customised an excel import direct loader(see line 175/176)
 
-HATEOAS endpoints that expose the DB objetcs
--Sample usage-->http://localhost:8080/planets
--Sample usage-->http://localhost:8080/routes
+My main concern was the custom algorithm, that calculated the nearest path between 2 nodes, using my own original method. I completed my function in less than 50 lines.
 
+The algorithm function is found in com.discov.logical.CustomAlgorithm
 
-SOAP layer
--------------
--Will use apache CFX
+Distance Calculation Assumptions
+The start node is always A
+The end node can be any single node
 
+Software Mathodologies Used
+SOA
+SOLID
+OOP
+Repository Pattern
+REST
+Interfaces
 
-Front end
----------
--Will use Thymeleaf
+Restful Web Sevice URLs
+Port: 8084
+Service:  http://localhost:8084/custom/A/G
+Web: http://localhost:8084
 
+EXECUTION
+In order to run the project you must change the following properties in the application.properties file:
+1. Excel file path
+2. Derby database connection string
 
-Unit testing
--------------
-@SpringBootTest with assertj
-
+By Davison Matanga
+dmatangany@gmail.com
+0713628200

@@ -59,9 +59,9 @@ public class DirectLoaderImpl implements DirectLoader {
 			processPlanetSheet(workbook);
 			processRoutesSheet(workbook);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			LOG.info(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.info(e.getMessage());
 
 		}
 	}

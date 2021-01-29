@@ -1,9 +1,12 @@
 //created from scratch by davison matanga dmatangany@gmail.com/0713628200 Jan-2021
 package com.discov.logical;
 
+import com.discov.dataload.DirectLoader;
 import com.discov.dataorm.Route;
+import com.discov.exception.ControllerException;
 import com.discov.repository.PlanetRepository;
 import com.discov.repository.RouteRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -13,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@SuppressWarnings("deprecation")
 public class CustomAlgorithm {
+    static final Logger LOG = org.apache.log4j.Logger.getLogger(DirectLoader.class);
     Map dictionaryCurrent = new HashMap();
     Map dictionaryDestiny = new HashMap();
     Map dictionaryFinal = new HashMap();
@@ -44,10 +47,8 @@ public class CustomAlgorithm {
         return principal;
     }
 
-    public String processNodes(String startNode, String endNode) {
+    public String processNodes(String startNode, String endNode) throws ControllerException {
         String pathvalue = startNode;
-        Boolean exitNode = false;
-        String test_x = "";
         try {
             List<Route> routeListing = routesReposit.findAll(Sort.by(Sort.Direction.ASC, "source"));
             int counter = 1;
@@ -71,9 +72,13 @@ public class CustomAlgorithm {
                     dictionaryDestiny.put(destinyLetter, pathvalue);
                 }
             }
+            if(dictionaryFinal.isEmpty()){
+                LOG.info("Route " + startNode.toString() + " to " + endNode.toString() + " not found");
+                throw new ControllerException("Route not found");
+            }
             return mitigateCount(dictionaryFinal);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.info("Route " + startNode.toString() + " to " + endNode.toString() + " not found: " + ex.getMessage());
         } finally {
             return mitigateCount(dictionaryFinal);
         }
